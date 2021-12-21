@@ -14,6 +14,9 @@ class UMotionControllerComponent;
 class UAnimMontage;
 class USoundBase;
 
+// éùÇøï®
+class CPP_Inventory;
+
 UCLASS(config=Game)
 class AFPSProjectCharacter : public ACharacter
 {

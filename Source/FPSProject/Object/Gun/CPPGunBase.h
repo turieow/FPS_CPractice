@@ -19,11 +19,24 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	/*UPROPERTY()
-		int */
+	UFUNCTION(BlueprintCallable)
+	virtual void Init();
+
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// ”­ËŠÖ”
+	UFUNCTION(BlueprintCallable)
+	virtual void Fire();
+
+public:
+	// Å‘å‘•“U”
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int m_MaxLoadingNum = 10;
+
+	// Œ»İ‚Ì‘•“U”
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int m_CurrentLoaingNum = 0;
 };

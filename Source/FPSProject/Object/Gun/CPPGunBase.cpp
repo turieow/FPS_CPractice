@@ -15,6 +15,7 @@ ACPPGunBase::ACPPGunBase()
 void ACPPGunBase::BeginPlay()
 {
 	Super::BeginPlay();
+	Init();
 	
 }
 
@@ -23,5 +24,20 @@ void ACPPGunBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+// ‰Šú‰»ˆ—
+void ACPPGunBase::Init()
+{
+	m_CurrentLoaingNum = m_MaxLoadingNum;
+}
+
+// ”­ËŠÖ”
+void ACPPGunBase::Fire()
+{
+	if (m_CurrentLoaingNum > 0)
+	{
+		m_CurrentLoaingNum--;
+	}
 }
 
