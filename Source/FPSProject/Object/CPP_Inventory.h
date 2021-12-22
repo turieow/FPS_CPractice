@@ -3,20 +3,29 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "CPP_Inventory.generated.h"
 
 class ACPPGunBase;
 /**
  * 
  */
-class FPSPROJECT_API CPP_Inventory
+UCLASS()
+class FPSPROJECT_API ACPP_Inventory : public AActor
 {
+	GENERATED_BODY()
 public:
-	CPP_Inventory();
-	~CPP_Inventory();
+	ACPP_Inventory();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
 public:
-	void Init();
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 	ACPPGunBase* GetMyGun() const { return m_MyGun; }
+	void Init();
 
 private:
 	ACPPGunBase* m_MyGun = nullptr;

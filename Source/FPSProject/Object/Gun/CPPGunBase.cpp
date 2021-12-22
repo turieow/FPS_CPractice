@@ -7,13 +7,18 @@
 ACPPGunBase::ACPPGunBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	PrimaryActorTick.bCanEverTick = true;	
+	if (!RootComponent)
+	{
+		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Gun"));
+	}
+	Init();
 }
 
 // Called when the game starts or when spawned
 void ACPPGunBase::BeginPlay()
 {
+	UE_LOG(LogTemp, Log, TEXT("BeginPlay Gun"));
 	Super::BeginPlay();
 	Init();
 	
@@ -29,6 +34,7 @@ void ACPPGunBase::Tick(float DeltaTime)
 // èâä˙âªèàóù
 void ACPPGunBase::Init()
 {
+	UE_LOG(LogTemp, Log, TEXT("InitGun"));
 	m_CurrentLoaingNum = m_MaxLoadingNum;
 }
 

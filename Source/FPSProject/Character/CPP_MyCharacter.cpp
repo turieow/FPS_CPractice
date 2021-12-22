@@ -3,6 +3,9 @@
 
 #include "FPSProject\Character/CPP_MyCharacter.h"
 
+#include "FPSProject\Object/CPP_Inventory.h"
+#include "FPSProject\Object/Gun/CPPGunBase.h"
+
 // Sets default values
 ACPP_MyCharacter::ACPP_MyCharacter()
 {
@@ -46,6 +49,9 @@ void ACPP_MyCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	check(GEngine != nullptr);
+
+	FActorSpawnParameters params;
+	m_Inventory = GetWorld()->SpawnActor<ACPP_Inventory>(GetActorLocation(), GetActorRotation(), params);
 }
 
 // Called every frame
@@ -101,6 +107,9 @@ void ACPP_MyCharacter::StopJump()
 
 void ACPP_MyCharacter::Fire()
 {
+	m_Inventory->GetMyGun()->Fire();
+	UE_LOG(LogTemp, Log, TEXT("ammo %d"), m_Inventory->GetMyGun()->m_CurrentLoaingNum);
+
 	// Attempt to fire a projectile.
 	if (ProjectileClass)
 	{

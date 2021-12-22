@@ -12,6 +12,9 @@
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 
+#include "FPSProject\Object/CPP_Inventory.h"
+#include "FPSProject\Object/Gun/CPPGunBase.h"
+
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
 //////////////////////////////////////////////////////////////////////////
@@ -103,6 +106,7 @@ void AFPSProjectCharacter::BeginPlay()
 		VR_Gun->SetHiddenInGame(true, true);
 		Mesh1P->SetHiddenInGame(false, true);
 	}
+	
 }
 
 //////////////////////////////////////////////////////////////////////////

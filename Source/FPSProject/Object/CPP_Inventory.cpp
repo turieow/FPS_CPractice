@@ -1,20 +1,34 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Kismet/GameplayStatics.h"
 
 #include "FPSProject\Object/CPP_Inventory.h"
 
 #include "FPSProject\Object/Gun/CPPGunBase.h"
 
 
-CPP_Inventory::CPP_Inventory()
+ACPP_Inventory::ACPP_Inventory()
 {
+	//Init();
 }
 
-CPP_Inventory::~CPP_Inventory()
+void ACPP_Inventory::BeginPlay()
 {
+	Super::BeginPlay();
+	Init();
 }
 
-void CPP_Inventory::Init()
+void ACPP_Inventory::Tick(float DeltaTime)
 {
-	m_MyGun = NewObject<ACPPGunBase>();
+
+}
+
+void ACPP_Inventory::Init()
+{
+	// ƒ[ƒ‹ƒh“à‚Ìe‚ğæ“¾EE‚¤‚Ü‚Å‚Ì‰¼ˆ—
+	TSubclassOf<ACPPGunBase> findClass;
+	findClass = ACPPGunBase::StaticClass();
+	TArray<AActor*> emitters;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), findClass, emitters);
+	m_MyGun = Cast<ACPPGunBase>(emitters[0]);
 }

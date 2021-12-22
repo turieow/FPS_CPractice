@@ -9,6 +9,9 @@
 #include "FPSProject\Object/FPSProjectile.h"
 #include "CPP_MyCharacter.generated.h"
 
+// éùÇøï®
+class ACPP_Inventory;
+
 UCLASS()
 class FPSPROJECT_API ACPP_MyCharacter : public ACharacter
 {
@@ -25,6 +28,9 @@ protected:
 	// Projectile class to spawn.
 	UPROPERTY(EditAnywhere, Category = Projectile)
 	TSubclassOf<class AFPSProjectile> ProjectileClass;
+
+	// éùÇøï®
+	ACPP_Inventory* m_Inventory = nullptr;
 
 public:	
 	// Called every frame
