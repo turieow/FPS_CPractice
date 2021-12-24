@@ -4,6 +4,10 @@
 #include "FPSProject\Object/Gun/CPPGunBase.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
+// interface
+// interface
+#include "FPSProject\Interface\I_GunToPlayer.h"
+
 // ëΩï™Ç†Ç∆Ç≈è¡Ç∑
 #include "FPSProject\Character/CPP_MyCharacter.h"
 #include "FPSProject\Define\ItemDefine.h"
@@ -60,12 +64,12 @@ void ACPPGunBase::Fire()
 // ÉäÉçÅ[Éh
 void ACPPGunBase::Reload()
 {
-	ACPP_MyCharacter* actor = Cast<ACPP_MyCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
-	int hasAmmo = actor->m_Inventory->GetItemNum(EItemType::EIT_LightAmmo);
+	AActor* actor = UGameplayStatics::GetPlayerPawn(this, 0);
+	int hasAmmo = II_GunToPlayer::Execute_IGetItemNum(actor, EItemType::EIT_LightAmmo);
 
 	if (hasAmmo > 0)
 	{
-		actor->m_Inventory->ConsumptionItem(EItemType::EIT_LightAmmo, FMath::Min(hasAmmo, m_MaxLoadingNum - m_CurrentLoaingNum));
+		II_GunToPlayer::Execute_IConsumptionItem(actor, EItemType::EIT_LightAmmo, FMath::Min(hasAmmo, m_MaxLoadingNum - m_CurrentLoaingNum));
 		m_CurrentLoaingNum = FMath::Min(hasAmmo, m_MaxLoadingNum);
-	}	
+	}
 }

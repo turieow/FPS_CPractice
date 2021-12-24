@@ -156,3 +156,14 @@ void ACPP_MyCharacter::Reload()
 {
 	m_Inventory->GetMyGun()->Reload();
 }
+
+// interface
+int ACPP_MyCharacter::IGetItemNum_Implementation(EItemType type)
+{
+	return m_Inventory->GetItemNum(type);
+}
+
+void ACPP_MyCharacter::IConsumptionItem_Implementation(EItemType type, int comsumptionNum)
+{
+	m_Inventory->ConsumptionItem(type, comsumptionNum);
+}

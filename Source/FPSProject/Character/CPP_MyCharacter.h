@@ -7,13 +7,17 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "FPSProject\Object/FPSProjectile.h"
+
+// interface
+#include "FPSProject\Interface\I_GunToPlayer.h"
+
 #include "CPP_MyCharacter.generated.h"
 
 // éùÇøï®
 class ACPP_Inventory;
 
 UCLASS()
-class FPSPROJECT_API ACPP_MyCharacter : public ACharacter
+class FPSPROJECT_API ACPP_MyCharacter : public ACharacter, public II_GunToPlayer
 {
 	GENERATED_BODY()
 
@@ -75,4 +79,8 @@ public:
 	// Gun muzzle offset from the camera location
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector MuzzleOffset;
+
+	// interface
+	virtual int IGetItemNum_Implementation(EItemType type) override;
+	virtual void IConsumptionItem_Implementation(EItemType type, int comsumptionNum) override;
 };
