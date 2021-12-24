@@ -65,7 +65,7 @@ void ACPPGunBase::Reload()
 
 	if (hasAmmo > 0)
 	{
+		actor->m_Inventory->ConsumptionItem(EItemType::EIT_LightAmmo, FMath::Min(hasAmmo, m_MaxLoadingNum - m_CurrentLoaingNum));
 		m_CurrentLoaingNum = FMath::Min(hasAmmo, m_MaxLoadingNum);
-		actor->m_Inventory->ConsumptionItem(EItemType::EIT_LightAmmo, FMath::Min(hasAmmo, m_MaxLoadingNum));
 	}	
 }
