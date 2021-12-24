@@ -45,5 +45,15 @@ void ACPPGunBase::Fire()
 	{
 		m_CurrentLoaingNum--;
 	}
+	else
+	{
+		Reload();
+	}
+}
+
+// ƒŠƒ[ƒh
+void ACPPGunBase::Reload()
+{
+	m_CurrentLoaingNum = m_MaxLoadingNum;
 }
 

@@ -31,6 +31,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void Fire();
 
+	// ƒŠƒ[ƒhŠÖ”
+	UFUNCTION(BlueprintCallable)
+	virtual void Reload();
+
 public:
 	// Å‘å‘•“U”
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

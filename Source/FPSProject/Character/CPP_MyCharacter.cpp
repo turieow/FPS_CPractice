@@ -78,7 +78,11 @@ void ACPP_MyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACPP_MyCharacter::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACPP_MyCharacter::StopJump);
 
+	// ”­ŽË
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ACPP_MyCharacter::Fire);
+	
+	// ƒŠƒ[ƒh
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &ACPP_MyCharacter::Reload);
 }
 
 void ACPP_MyCharacter::MoveForward(float Value)
@@ -145,4 +149,9 @@ void ACPP_MyCharacter::Fire()
 			}
 		}
 	}
+}
+
+void ACPP_MyCharacter::Reload()
+{
+	m_Inventory->GetMyGun()->Reload();
 }
