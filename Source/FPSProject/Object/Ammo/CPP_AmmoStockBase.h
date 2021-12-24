@@ -5,46 +5,27 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "FPSProject\Object/CPP_ItemBase.h"
-#include "CPPGunBase.generated.h"
+#include "CPP_AmmoStockBase.generated.h"
 
 UCLASS()
-class FPSPROJECT_API ACPPGunBase : public ACPP_ItemBase
+class FPSPROJECT_API ACPP_AmmoStockBase : public ACPP_ItemBase
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ACPPGunBase();
+	ACPP_AmmoStockBase();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UFUNCTION(BlueprintCallable)
-	virtual void Init();
-
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// î≠éÀä÷êî
-	UFUNCTION(BlueprintCallable)
-	virtual void Fire();
-
-	// ÉäÉçÅ[Éhä÷êî
-	UFUNCTION(BlueprintCallable)
-	virtual void Reload();
-
 public:
-	// ç≈ëÂëïìUêî
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int m_MaxLoadingNum = 10;
-
-	// åªç›ÇÃëïìUêî
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int m_CurrentLoaingNum = 0;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EGunType m_GunType;
+
 };

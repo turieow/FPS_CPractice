@@ -113,6 +113,7 @@ void ACPP_MyCharacter::Fire()
 {
 	m_Inventory->GetMyGun()->Fire();
 	UE_LOG(LogTemp, Log, TEXT("ammo %d"), m_Inventory->GetMyGun()->m_CurrentLoaingNum);
+	UE_LOG(LogTemp, Log, TEXT("inventory %d"), m_Inventory->GetItemNum(EItemType::EIT_LightAmmo));
 
 	// Attempt to fire a projectile.
 	if (ProjectileClass)

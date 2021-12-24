@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "FPSProject/Define/ItemDefine.h"
 #include "CPP_ItemBase.generated.h"
 
 UCLASS()
@@ -23,4 +24,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+public:
+	// アイテムのタイプ
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EItemType m_ItemType;
+
+	// このアイテムを保有している数(注射器なら「×2」)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int m_Stuck;
 };

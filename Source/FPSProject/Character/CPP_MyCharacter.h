@@ -29,6 +29,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Projectile)
 	TSubclassOf<class AFPSProjectile> ProjectileClass;
 
+public:
 	// éùÇøï®
 	ACPP_Inventory* m_Inventory = nullptr;
 

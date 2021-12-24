@@ -29,4 +29,35 @@ void ACPP_Inventory::Init()
 	TArray<AActor*> emitters;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), findClass, emitters);
 	m_MyGun = Cast<ACPPGunBase>(emitters[0]);
+
+	//　ライトアモ補充（仮）
+	FStockItemNum lightAmmo;
+	lightAmmo.type = EItemType::EIT_LightAmmo;
+	lightAmmo.num = 50;
+	m_CurrentStockItemNum.Add(lightAmmo);
+}
+
+int ACPP_Inventory::GetItemNum(EItemType type)
+{
+	for (auto& item : m_CurrentStockItemNum)
+	{
+		if (item.type == type)
+		{
+			return item.num;
+		}
+	}
+
+	return -1;
+}
+
+// アイテムを消費する
+void ACPP_Inventory::ConsumptionItem(EItemType type, int consumptionNum)
+{
+	for (auto& item : m_CurrentStockItemNum)
+	{
+		if (item.type == type)
+		{
+			item.num = FMath::Max(0, item.num - consumptionNum);
+		}
+	}
 }
