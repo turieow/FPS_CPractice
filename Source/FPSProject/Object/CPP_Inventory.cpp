@@ -32,7 +32,7 @@ void ACPP_Inventory::Init()
 
 	//　ライトアモ補充（仮）
 	FStockItemNum lightAmmo;
-	lightAmmo.type = EItemType::EIT_LightAmmo;
+	lightAmmo.type = EItemType::EIT_HeavyAmmo;
 	lightAmmo.num = 23;
 	m_CurrentStockItemNum.Add(lightAmmo);
 }

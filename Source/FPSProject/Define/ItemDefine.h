@@ -13,6 +13,9 @@
 UENUM(BlueprintType)
 enum class EItemType : uint8
 {
+    //
+    EIT_NONE                UMETA(DisplayName = "NONE"),
+  
     // èeíe
     EIT_LightAmmo           UMETA(DisplayName = "Light Ammo"),
     EIT_HeavyAmmo           UMETA(DisplayName = "Heavy Ammo"),
@@ -39,3 +42,4 @@ struct FStockItemNum
     EItemType type;
     int num;
 };
+

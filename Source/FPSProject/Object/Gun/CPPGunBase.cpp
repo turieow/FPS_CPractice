@@ -5,8 +5,10 @@
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 
 // interface
-// interface
 #include "FPSProject\Interface\I_GunToPlayer.h"
+
+// FunctionLiblary
+#include "FPSProject\FunctionLibrary/CPP_ItemFunctionLibrary.h"
 
 // ‘½•ª‚ ‚Æ‚ÅÁ‚·
 #include "FPSProject\Character/CPP_MyCharacter.h"
@@ -43,9 +45,9 @@ void ACPPGunBase::Tick(float DeltaTime)
 
 // ‰Šú‰»ˆ—
 void ACPPGunBase::Init()
-{
-	UE_LOG(LogTemp, Log, TEXT("InitGun"));
+{	
 	m_CurrentLoaingNum = m_MaxLoadingNum;
+	m_GunType = EGunType::EGT_Light;
 }
 
 // ”­ŽËŠÖ”
@@ -65,7 +67,9 @@ void ACPPGunBase::Fire()
 void ACPPGunBase::Reload()
 {
 	AActor* actor = UGameplayStatics::GetPlayerPawn(this, 0);
-	int hasAmmo = II_GunToPlayer::Execute_IGetItemNum(actor, EItemType::EIT_LightAmmo);
+
+	const EItemType itemType = UCPP_ItemFunctionLibrary::GunTypeToItemType(m_GunType);
+	int hasAmmo = II_GunToPlayer::Execute_IGetItemNum(actor, itemType);
 
 	if (hasAmmo > 0)
 	{

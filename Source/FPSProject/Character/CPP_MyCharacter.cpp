@@ -6,6 +6,9 @@
 #include "FPSProject\Object/CPP_Inventory.h"
 #include "FPSProject\Object/Gun/CPPGunBase.h"
 
+// Œã‚ÅÁ‚·
+#include "FPSProject\FunctionLibrary/CPP_ItemFunctionLibrary.h"
+
 // Sets default values
 ACPP_MyCharacter::ACPP_MyCharacter()
 {
@@ -65,7 +68,7 @@ void ACPP_MyCharacter::Tick(float DeltaTime)
 void ACPP_MyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	UE_LOG(LogTemp, Log, TEXT("PLAYER"));
+
 	// Set up "movement" bindings.
 	PlayerInputComponent->BindAxis("MoveForward", this, &ACPP_MyCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ACPP_MyCharacter::MoveRight);
@@ -113,7 +116,8 @@ void ACPP_MyCharacter::Fire()
 {
 	m_Inventory->GetMyGun()->Fire();
 	UE_LOG(LogTemp, Log, TEXT("ammo %d"), m_Inventory->GetMyGun()->m_CurrentLoaingNum);
-	UE_LOG(LogTemp, Log, TEXT("inventory %d"), m_Inventory->GetItemNum(EItemType::EIT_LightAmmo));
+	const EItemType itemType = UCPP_ItemFunctionLibrary::GunTypeToItemType(m_Inventory->GetMyGun()->m_GunType);
+	UE_LOG(LogTemp, Log, TEXT("inventory %d"), m_Inventory->GetItemNum(itemType));
 
 	// Attempt to fire a projectile.
 	if (ProjectileClass)
