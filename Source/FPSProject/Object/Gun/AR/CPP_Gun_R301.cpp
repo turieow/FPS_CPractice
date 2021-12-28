@@ -9,4 +9,7 @@ void ACPP_Gun_R301::BeginPlay()
 
 	// 銃タイプを設定
 	m_GunType = EGunType::EGT_Light;
+
+	// 連射速度を設定
+	m_FireRate = 0.3f;
 }

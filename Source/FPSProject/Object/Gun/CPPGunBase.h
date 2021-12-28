@@ -47,4 +47,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EGunType m_GunType;
+
+	// 連射の間隔.単発武器ならマイナス値
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float m_FireRate;
 };
