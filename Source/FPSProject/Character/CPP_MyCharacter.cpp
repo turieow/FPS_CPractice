@@ -161,6 +161,20 @@ void ACPP_MyCharacter::Reload()
 	m_Inventory->GetMyGun()->Reload();
 }
 
+// アイテムを取得.
+void ACPP_MyCharacter::TakeItem()
+{
+	// 取得したアイテム.そのうちレイで入れる
+	AActor* item = nullptr;
+
+	// 取得したアイテムをアイテムリストに移す
+	if (item)
+	{
+		const int addedItemNum = m_Inventory->AddItem(item);
+		II_PlayerToItem::Execute_ITakeItem(item, addedItemNum);
+	}
+}
+
 // interface
 int ACPP_MyCharacter::IGetItemNum_Implementation(EItemType type)
 {

@@ -30,10 +30,8 @@ ACPPGunBase::ACPPGunBase()
 // Called when the game starts or when spawned
 void ACPPGunBase::BeginPlay()
 {
-	UE_LOG(LogTemp, Log, TEXT("BeginPlay Gun"));
 	Super::BeginPlay();
-	Init();
-	
+	Init();	
 }
 
 // Called every frame
@@ -47,7 +45,6 @@ void ACPPGunBase::Tick(float DeltaTime)
 void ACPPGunBase::Init()
 {	
 	m_CurrentLoaingNum = m_MaxLoadingNum;
-	m_GunType = EGunType::EGT_Light;
 }
 
 // î≠éÀä÷êî

@@ -34,6 +34,9 @@ public:
 	// アイテムを消費する
 	void ConsumptionItem(EItemType type, int consumptioNum);
 
+	// アイテムを追加。実際に追加した数を返す.追加できなければ-1
+	int AddItem(AActor* item);
+
 private:
 	ACPPGunBase* m_MyGun = nullptr;
 
