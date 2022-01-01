@@ -14,6 +14,7 @@
 #include "FPSProject\Character/CPP_MyCharacter.h"
 #include "FPSProject\Define\ItemDefine.h"
 #include "FPSProject\Object/CPP_Inventory.h"
+#include "FPSProject\Object/FPSProjectile.h"
 
 // Sets default values
 ACPPGunBase::ACPPGunBase()
@@ -55,6 +56,52 @@ EFireResultType ACPPGunBase::Fire()
 		m_CurrentLoaingNum--;
 		//OutHit hitresult = LineTraceByChannel();
 		//ApplyDamage(hitresult.HitActor, m_Damage);
+
+		// ‚Æ‚è‚ ‚¦‚¸’e¶¬
+		{
+			// Get the camera transform.
+			FVector CameraLocation;
+			FRotator CameraRotation;
+			UGameplayStatics::GetPlayerPawn(this, 0)->GetActorEyesViewPoint(CameraLocation, CameraRotation);
+
+			// Set MuzleOffset to spawn projectiles slightly in front of the camera
+			FVector MuzzleOffset(100.f, 0.f, 0.f);
+
+			// Transform MuzzleOffset from camera space to world space.
+			FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
+
+			// Skew the aim to be slightly upwards
+			FRotator MzzleRotation = CameraRotation;
+			MzzleRotation.Pitch += 10.f;
+
+			UWorld* World = GetWorld();
+			if (World)
+			{
+				FActorSpawnParameters SpawnParams;
+				SpawnParams.Owner = this;
+				SpawnParams.Instigator = GetInstigator();
+				
+				UE_LOG(LogTemp, Log, TEXT("Valid World"));
+				// Spawn the projectile at the muzzle.
+				AFPSProjectile* Projectile = GetWorld()->SpawnActor<AFPSProjectile>(MuzzleLocation, MzzleRotation, SpawnParams);
+				if (Projectile)
+				{
+					UE_LOG(LogTemp, Log, TEXT("Valid Projectile"));
+					// Set the projectile's initial trajectory.
+					FVector LaunchDirection = MzzleRotation.Vector();
+					Projectile->FireInDirection(LaunchDirection);
+				}
+				else
+				{
+					UE_LOG(LogTemp, Log, TEXT("NULL Projectile"));
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Log, TEXT("NO World"));
+			}
+		}
+
 
 		return EFireResultType::EFT_Fire;
 	}

@@ -6,7 +6,6 @@
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "FPSProject\Object/FPSProjectile.h"
 
 // interface
 #include "FPSProject\Interface\I_GunToPlayer.h"
@@ -28,10 +27,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	// Projectile class to spawn.
-	UPROPERTY(EditAnywhere, Category = Projectile)
-	TSubclassOf<class AFPSProjectile> ProjectileClass;
 
 public:
 	// éùÇøï®
@@ -78,11 +73,7 @@ public:
 
 	// ÉAÉCÉeÉÄÇÇ∆ÇÈ
 	UFUNCTION()
-	void TakeItem();
-
-	// Gun muzzle offset from the camera location
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	FVector MuzzleOffset;
+	void TakeItem();	
 
 	// interface
 	virtual int IGetItemNum_Implementation(EItemType type) override;

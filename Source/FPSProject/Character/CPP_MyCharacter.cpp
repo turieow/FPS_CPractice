@@ -126,43 +126,11 @@ void ACPP_MyCharacter::Fire()
 	switch (fireResult)
 	{
 	case EFireResultType::EFT_Fire:
-		if (ProjectileClass)
-		{
-			// Get the camera transform.
-			FVector CameraLocation;
-			FRotator CameraRotation;
-			GetActorEyesViewPoint(CameraLocation, CameraRotation);
-
-			// Set MuzleOffset to spawn projectiles slightly in front of the camera
-			MuzzleOffset.Set(100.f, 0.f, 0.f);
-
-			// Transform MuzzleOffset from camera space to world space.
-			FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
-
-			// Skew the aim to be slightly upwards
-			FRotator MzzleRotation = CameraRotation;
-			MzzleRotation.Pitch += 10.f;
-
-			UWorld* World = GetWorld();
-			if (World)
-			{
-				FActorSpawnParameters SpawnParams;
-				SpawnParams.Owner = this;
-				SpawnParams.Instigator = GetInstigator();
-
-				// Spawn the projectile at the muzzle.
-				AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MzzleRotation, SpawnParams);
-				if (Projectile)
-				{
-					// Set the projectile's initial trajectory.
-					FVector LaunchDirection = MzzleRotation.Vector();
-					Projectile->FireInDirection(LaunchDirection);
-				}
-			}
-		}
+		// 射撃アニメーション
 		break;
 
 	case EFireResultType::EFT_Reload:
+		// リロードアニメーション
 		break;
 
 	case EFireResultType::EFT_NONE:
@@ -172,7 +140,11 @@ void ACPP_MyCharacter::Fire()
 
 void ACPP_MyCharacter::Reload()
 {
-	m_Inventory->GetMyGun()->Reload();
+	const bool result = m_Inventory->GetMyGun()->Reload();
+	if (result)
+	{
+		// リロードアニメーション
+	}
 }
 
 // アイテムを取得.
