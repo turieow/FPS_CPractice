@@ -5,6 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "FPSProject\Object/CPP_ItemBase.h"
+
+// Define
+#include "FPSProject\Define\ResultDefine.h"
+
 #include "CPPGunBase.generated.h"
 
 UCLASS()
@@ -30,11 +34,11 @@ public:
 
 	// ”­ËŠÖ”
 	UFUNCTION(BlueprintCallable)
-	virtual void Fire();
+	virtual EFireResultType Fire();
 
 	// ƒŠƒ[ƒhŠÖ”
 	UFUNCTION(BlueprintCallable)
-	virtual void Reload();
+	virtual bool Reload();
 
 public:
 	// Å‘å‘•“U”

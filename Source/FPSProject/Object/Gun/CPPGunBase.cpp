@@ -48,20 +48,27 @@ void ACPPGunBase::Init()
 }
 
 // î≠éÀä÷êî
-void ACPPGunBase::Fire()
+EFireResultType ACPPGunBase::Fire()
 {
 	if (m_CurrentLoaingNum > 0)
 	{
 		m_CurrentLoaingNum--;
+		//OutHit hitresult = LineTraceByChannel();
+		//ApplyDamage(hitresult.HitActor, m_Damage);
+
+		return EFireResultType::EFT_Fire;
 	}
 	else
 	{
-		Reload();
+		const bool canReload = Reload();
+		return canReload ? EFireResultType::EFT_Reload : EFireResultType::EFT_NONE;
 	}
+
+	return EFireResultType::EFT_NONE;
 }
 
 // ÉäÉçÅ[Éh
-void ACPPGunBase::Reload()
+bool ACPPGunBase::Reload()
 {
 	AActor* actor = UGameplayStatics::GetPlayerPawn(this, 0);
 
@@ -72,5 +79,12 @@ void ACPPGunBase::Reload()
 	{
 		II_GunToPlayer::Execute_IConsumptionItem(actor, EItemType::EIT_LightAmmo, FMath::Min(hasAmmo, m_MaxLoadingNum - m_CurrentLoaingNum));
 		m_CurrentLoaingNum = FMath::Min(hasAmmo, m_MaxLoadingNum);
+		return true;
 	}
+	else
+	{
+		return false;
+	}
+
+	return false;
 }

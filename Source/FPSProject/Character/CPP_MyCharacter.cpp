@@ -6,6 +6,9 @@
 #include "FPSProject\Object/CPP_Inventory.h"
 #include "FPSProject\Object/Gun/CPPGunBase.h"
 
+// Define
+#include "FPSProject\Define\ResultDefine.h"
+
 // Œã‚ÅÁ‚·
 #include "FPSProject\FunctionLibrary/CPP_ItemFunctionLibrary.h"
 
@@ -114,46 +117,57 @@ void ACPP_MyCharacter::StopJump()
 
 void ACPP_MyCharacter::Fire()
 {
-	m_Inventory->GetMyGun()->Fire();
+	EFireResultType fireResult = m_Inventory->GetMyGun()->Fire();
 	UE_LOG(LogTemp, Log, TEXT("ammo %d"), m_Inventory->GetMyGun()->m_CurrentLoaingNum);
 	const EItemType itemType = UCPP_ItemFunctionLibrary::GunTypeToItemType(m_Inventory->GetMyGun()->m_GunType);
 	UE_LOG(LogTemp, Log, TEXT("inventory %d"), m_Inventory->GetItemNum(itemType));
 
 	// Attempt to fire a projectile.
-	if (ProjectileClass)
+	switch (fireResult)
 	{
-		// Get the camera transform.
-		FVector CameraLocation;
-		FRotator CameraRotation;
-		GetActorEyesViewPoint(CameraLocation, CameraRotation);
-
-		// Set MuzleOffset to spawn projectiles slightly in front of the camera
-		MuzzleOffset.Set(100.f, 0.f, 0.f);
-
-		// Transform MuzzleOffset from camera space to world space.
-		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
-		
-		// Skew the aim to be slightly upwards
-		FRotator MzzleRotation = CameraRotation;
-		MzzleRotation.Pitch += 10.f;
-
-		UWorld* World = GetWorld();
-		if (World)
+	case EFireResultType::EFT_Fire:
+		if (ProjectileClass)
 		{
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.Owner = this;
-			SpawnParams.Instigator = GetInstigator();
+			// Get the camera transform.
+			FVector CameraLocation;
+			FRotator CameraRotation;
+			GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
-			// Spawn the projectile at the muzzle.
-			AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MzzleRotation, SpawnParams);
-			if (Projectile)
+			// Set MuzleOffset to spawn projectiles slightly in front of the camera
+			MuzzleOffset.Set(100.f, 0.f, 0.f);
+
+			// Transform MuzzleOffset from camera space to world space.
+			FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
+
+			// Skew the aim to be slightly upwards
+			FRotator MzzleRotation = CameraRotation;
+			MzzleRotation.Pitch += 10.f;
+
+			UWorld* World = GetWorld();
+			if (World)
 			{
-				// Set the projectile's initial trajectory.
-				FVector LaunchDirection = MzzleRotation.Vector();
-				Projectile->FireInDirection(LaunchDirection);
+				FActorSpawnParameters SpawnParams;
+				SpawnParams.Owner = this;
+				SpawnParams.Instigator = GetInstigator();
+
+				// Spawn the projectile at the muzzle.
+				AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MzzleRotation, SpawnParams);
+				if (Projectile)
+				{
+					// Set the projectile's initial trajectory.
+					FVector LaunchDirection = MzzleRotation.Vector();
+					Projectile->FireInDirection(LaunchDirection);
+				}
 			}
 		}
-	}
+		break;
+
+	case EFireResultType::EFT_Reload:
+		break;
+
+	case EFireResultType::EFT_NONE:
+		break;
+	}	
 }
 
 void ACPP_MyCharacter::Reload()
