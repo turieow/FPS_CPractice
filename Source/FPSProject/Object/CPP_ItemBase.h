@@ -37,6 +37,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int m_Stock;
 
+	// Projectile mesh 
+	UPROPERTY(VisibleDefaultsOnly)
+	UStaticMeshComponent* m_Mesh;
+
 	// interface
 public:
 	virtual int IGetStockNum_Implementation() const override;

@@ -11,6 +11,7 @@
 
 // 後で消す
 #include "FPSProject\FunctionLibrary/CPP_ItemFunctionLibrary.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 ACPP_MyCharacter::ACPP_MyCharacter()
@@ -89,6 +90,9 @@ void ACPP_MyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	
 	// リロード
 	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &ACPP_MyCharacter::Reload);
+	
+	// アイテム取得
+	PlayerInputComponent->BindAction("TakeItem", IE_Pressed, this, &ACPP_MyCharacter::TakeItem);
 }
 
 void ACPP_MyCharacter::MoveForward(float Value)
@@ -153,11 +157,37 @@ void ACPP_MyCharacter::TakeItem()
 	// 取得したアイテム.そのうちレイで入れる
 	AActor* item = nullptr;
 
-	// 取得したアイテムをアイテムリストに移す
-	if (item)
 	{
-		const int addedItemNum = m_Inventory->AddItem(item);
-		II_PlayerToItem::Execute_ITakeItem(item, addedItemNum);
+		float DirectLength = 10000.f;
+
+		FVector PlayerViewLocation;
+		FRotator PlayerViewRotation;
+		GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerViewLocation, OUT PlayerViewRotation);
+
+		FVector TraceEnd = PlayerViewLocation + PlayerViewRotation.Vector() * DirectLength;
+		FHitResult Hit;
+
+		GetWorld()->LineTraceSingleByObjectType(OUT Hit, PlayerViewLocation,
+			TraceEnd, FCollisionObjectQueryParams(ECollisionChannel::ECC_WorldStatic));
+
+		if (Hit.bBlockingHit)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Hit"));
+			item = Hit.GetActor();
+
+			if (item->ActorHasTag(TEXT("Item")))
+			{
+				// 取得したアイテムをアイテムリストに移す
+				const int addedItemNum = m_Inventory->AddItem(item);
+				II_PlayerToItem::Execute_ITakeItem(item, addedItemNum);
+
+				UE_LOG(LogTemp, Log, TEXT("HitActor:%s"), *(item->GetName()));
+			}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("NoHit"));
+		}
 	}
 }
 

@@ -10,5 +10,14 @@ ACPP_LightAmmoStock::ACPP_LightAmmoStock()
 	m_GunType = EGunType::EGT_Light;
 
 	m_Stock = 15;
+
+	if (m_Mesh)
+	{
+		static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("'/Game/Mesh/Sphere/Sphere.Sphere'"));
+		if (Mesh.Succeeded())
+		{
+			m_Mesh->SetStaticMesh(Mesh.Object);
+		}
+	}
 }
 

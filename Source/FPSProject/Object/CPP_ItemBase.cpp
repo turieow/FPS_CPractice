@@ -14,6 +14,15 @@ ACPP_ItemBase::ACPP_ItemBase()
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Item"));
 	}
 
+	if (!m_Mesh)
+	{
+		m_Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+		if (m_Mesh)
+		{
+			m_Mesh->SetupAttachment(RootComponent);
+		}
+	}
+
 	// ƒ^ƒO‚ð’Ç‰Á
 	Tags.Add(FName("Item"));
 }

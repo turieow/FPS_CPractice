@@ -59,12 +59,12 @@ EFireResultType ACPPGunBase::Fire()
 
 		// とりあえず弾生成
 		{
-			// Get the camera transform.
+			// カメラ位置取得
 			FVector CameraLocation;
 			FRotator CameraRotation;
 			UGameplayStatics::GetPlayerPawn(this, 0)->GetActorEyesViewPoint(CameraLocation, CameraRotation);
 
-			// Set MuzleOffset to spawn projectiles slightly in front of the camera
+			// カメラ位置からの銃口位置
 			FVector MuzzleOffset(100.f, 0.f, 0.f);
 
 			// Transform MuzzleOffset from camera space to world space.
@@ -80,28 +80,17 @@ EFireResultType ACPPGunBase::Fire()
 				FActorSpawnParameters SpawnParams;
 				SpawnParams.Owner = this;
 				SpawnParams.Instigator = GetInstigator();
-				
-				UE_LOG(LogTemp, Log, TEXT("Valid World"));
+
 				// Spawn the projectile at the muzzle.
 				AFPSProjectile* Projectile = GetWorld()->SpawnActor<AFPSProjectile>(MuzzleLocation, MzzleRotation, SpawnParams);
 				if (Projectile)
 				{
-					UE_LOG(LogTemp, Log, TEXT("Valid Projectile"));
 					// Set the projectile's initial trajectory.
 					FVector LaunchDirection = MzzleRotation.Vector();
 					Projectile->FireInDirection(LaunchDirection);
 				}
-				else
-				{
-					UE_LOG(LogTemp, Log, TEXT("NULL Projectile"));
-				}
-			}
-			else
-			{
-				UE_LOG(LogTemp, Log, TEXT("NO World"));
 			}
 		}
-
 
 		return EFireResultType::EFT_Fire;
 	}
