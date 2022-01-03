@@ -126,11 +126,11 @@ int ACPP_Inventory::AddItem(AActor* newitem)
 	{
 		if (newItemType == myitem.type)
 		{
-			// バックパック空いてたら
+			// ToDo:バックパック空いてたら
 			if (true)
 			{
 				myitem.num += newItemNum;
-				return newItemNum;	// 実際に追加した数を返すように変える。
+				return newItemNum;	
 			}
 			else
 			{
@@ -140,7 +140,7 @@ int ACPP_Inventory::AddItem(AActor* newitem)
 	}
 
 	// まだ持ってないアイテムだったとき
-	if (true)	// バックパックが空いてたら
+	if (true)	// ToDo:バックパックが空いてたら
 	{
 		FStockItemNum stock;
 		stock.type = newItemType;
