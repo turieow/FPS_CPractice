@@ -32,20 +32,57 @@ void ACPP_Inventory::Init()
 	// ワールド内の銃を取得・拾うまでの仮処理
 	TSubclassOf<ACPPGunBase> findGunClass;
 	findGunClass = ACPPGunBase::StaticClass();
-	TArray<AActor*> emitters;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), findGunClass, emitters);
-	m_MyGun = Cast<ACPPGunBase>(emitters[0]);
+	TArray<AActor*> inLevelGuns;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), findGunClass, inLevelGuns);
+	//m_MyGun = Cast<ACPPGunBase>(inLevelGuns[0]);
+	SetGun(Cast<ACPPGunBase>(inLevelGuns[0]));
 
 	//　ライトアモ補充（仮）
-	/*FStockItemNum lightAmmo;
-	lightAmmo.type = EItemType::EIT_HeavyAmmo;
-	lightAmmo.num = 23;
-	m_CurrentStockItemNum.Add(lightAmmo);*/
 	TSubclassOf<ACPP_AmmoStockBase> findAmmoClass; 
 	findAmmoClass = ACPP_AmmoStockBase::StaticClass();
 	TArray<AActor*> ammo;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), findAmmoClass, ammo);
 	AddItem(ammo[0]);
+}
+
+ACPPGunBase* ACPP_Inventory::GetMyGun() const
+{
+	if (m_GunsArray.IsValidIndex((int)m_CurrentPossessionGunNum))
+	{
+		return m_GunsArray[(int)m_CurrentPossessionGunNum];
+	}
+	return nullptr;
+}
+
+void ACPP_Inventory::SetGun(ACPPGunBase* gun)
+{
+	// 空いてる銃の枠があればそこに入れる
+	const UEnum* enumPtr = FindObject<UEnum>(ANY_PACKAGE, TEXT("EPossessionGunNumber"), true);
+	if (enumPtr != nullptr)
+	{
+		for (int i = 0; i < enumPtr->NumEnums(); i++)
+		{
+			EPossessionGunNumber enumValue = (EPossessionGunNumber)(enumPtr->GetValueByIndex(i));
+			if (!m_GunsArray.IsValidIndex((int)enumValue))
+			{
+				m_GunsArray.AddUnique(gun);
+				return;
+			}
+
+			if (!m_GunsArray[(int)enumValue])
+			{
+				m_GunsArray[(int)enumValue] = gun;
+				return;
+			}
+		}
+
+		// フォーカス中の銃枠を入れ替える
+		if (m_GunsArray[(int)m_CurrentPossessionGunNum])
+		{
+			// 持ってる銃を落とす
+		}
+		m_GunsArray[(int)m_CurrentPossessionGunNum] = gun;
+	}
 }
 
 int ACPP_Inventory::GetItemNum(EItemType type)

@@ -20,6 +20,7 @@ ACPP_ItemBase::ACPP_ItemBase()
 		if (m_Mesh)
 		{
 			m_Mesh->SetupAttachment(RootComponent);
+			m_Mesh->SetCollisionObjectType(ECollisionChannel::ECC_WorldStatic);
 		}
 	}
 

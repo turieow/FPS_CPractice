@@ -121,6 +121,12 @@ void ACPP_MyCharacter::StopJump()
 
 void ACPP_MyCharacter::Fire()
 {
+	if (!m_Inventory)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Inventoryはない"));
+		return;
+	}
+
 	EFireResultType fireResult = m_Inventory->GetMyGun()->Fire();
 	UE_LOG(LogTemp, Log, TEXT("ammo %d"), m_Inventory->GetMyGun()->m_CurrentLoaingNum);
 	const EItemType itemType = UCPP_ItemFunctionLibrary::GunTypeToItemType(m_Inventory->GetMyGun()->m_GunType);
@@ -174,14 +180,16 @@ void ACPP_MyCharacter::TakeItem()
 		{
 			UE_LOG(LogTemp, Log, TEXT("Hit"));
 			item = Hit.GetActor();
-
-			if (item->ActorHasTag(TEXT("Item")))
+			if (item)
 			{
-				// 取得したアイテムをアイテムリストに移す
-				const int addedItemNum = m_Inventory->AddItem(item);
-				II_PlayerToItem::Execute_ITakeItem(item, addedItemNum);
+				if (item->ActorHasTag(TEXT("Item")))
+				{
+					// 取得したアイテムをアイテムリストに移す
+					const int addedItemNum = m_Inventory->AddItem(item);
+					II_PlayerToItem::Execute_ITakeItem(item, addedItemNum);
 
-				UE_LOG(LogTemp, Log, TEXT("HitActor:%s"), *(item->GetName()));
+					UE_LOG(LogTemp, Log, TEXT("HitActor:%s"), *(item->GetName()));
+				}
 			}
 		}
 		else

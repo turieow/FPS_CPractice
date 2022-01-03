@@ -34,6 +34,14 @@ enum  class EGunType : uint8
     EGT_Heavy               UMETA(DisplayName = "HeavyGun"),
 };
 
+// èeîzóÒÇÃìYÇ¶éö
+UENUM(BlueprintType)
+enum  class EPossessionGunNumber : uint8
+{
+    EGN_GunFirst            UMETA(DisplayName = "First"),
+    EGN_GunSecond           UMETA(DisplayName = "Second"),
+};
+
 USTRUCT(BlueprintType)
 struct FStockItemNum
 {
