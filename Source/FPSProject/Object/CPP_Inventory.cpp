@@ -87,7 +87,7 @@ void ACPP_Inventory::SetGun(ACPPGunBase* gun)
 
 int ACPP_Inventory::GetItemNum(EItemType type)
 {
-	for (auto& item : m_CurrentStockItemNum)
+	for (auto item : m_CurrentStockItemNum)
 	{
 		if (item.type == type)
 		{
@@ -95,6 +95,19 @@ int ACPP_Inventory::GetItemNum(EItemType type)
 		}
 	}
 
+	return -1;
+}
+
+// 引数のアイテムのバックパック一枠分の個数を取得
+int ACPP_Inventory::GetMaxStockItemNum(EItemType type) const
+{
+	for (auto maxItem : m_MaxStockableItemNum)
+	{
+		if (type == maxItem.type)
+		{
+			return maxItem.num;
+		}
+	}
 	return -1;
 }
 
@@ -110,9 +123,15 @@ void ACPP_Inventory::ConsumptionItem(EItemType type, int consumptionNum)
 	}
 }
 
+int32 ACPP_Inventory::CheckCanTakeItemNum(AActor* item)
+{
+	return 0;
+}
+
 // アイテムを追加する。実際に追加した数を返す.追加できなければ-1
 int ACPP_Inventory::AddItem(AActor* newitem)
 {
+	// 拾えるアイテムじゃなかったらreturn
 	if (!newitem->ActorHasTag("Item"))
 	{
 		return -1;

@@ -31,8 +31,14 @@ public:
 	// 所有しているアイテムの数を取得
 	int GetItemNum(EItemType type);
 
+	// 引数のアイテムのバックパック一枠分の個数を取得
+	int GetMaxStockItemNum(EItemType type) const;
+
 	// アイテムを消費する
 	void ConsumptionItem(EItemType type, int consumptioNum);
+
+	// 引数のアイテムを回収できる数を返す
+	int32 CheckCanTakeItemNum(AActor* item);
 
 	// アイテムを追加。実際に追加した数を返す.追加できなければ-1
 	int AddItem(AActor* item);

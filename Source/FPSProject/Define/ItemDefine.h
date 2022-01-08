@@ -21,9 +21,12 @@ enum class EItemType : uint8
     EIT_HeavyAmmo           UMETA(DisplayName = "Heavy Ammo"),
 
     // シールド回復
-    EIT_ShieldedBattery     UMETA(DisplayName = "Shielded battery")
+    EIT_ShieldedBattery     UMETA(DisplayName = "Shielded battery"),
 
     // 体力回復
+
+    // バックパック
+    EIT_BackPack            UMETA(DisplayName = "BackPack"),
 };
 
 // 銃のタイプ
@@ -40,6 +43,16 @@ enum  class EPossessionGunNumber : uint8
 {
     EGN_GunFirst            UMETA(DisplayName = "First"),
     EGN_GunSecond           UMETA(DisplayName = "Second"),
+};
+
+UENUM(BlueprintType)
+enum  class ELevel : uint8
+{
+    ELV_1                   UMETA(DisplayName = "Level1"),
+    ELV_2                   UMETA(DisplayName = "Level2"),
+    ELV_3                   UMETA(DisplayName = "Level3"),
+    ELV_4                   UMETA(DisplayName = "Level4"),
+    ELV_5                   UMETA(DisplayName = "Level5"),
 };
 
 USTRUCT(BlueprintType)
