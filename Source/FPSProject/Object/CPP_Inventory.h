@@ -57,8 +57,6 @@ public:
 	void SetGun(ACPPGunBase* gun);
 
 private:
-	ACPPGunBase* m_MyGun = nullptr;
-
 	// Še”z—ñ
 	TArray<ACPPGunBase*> m_GunsArray;
 

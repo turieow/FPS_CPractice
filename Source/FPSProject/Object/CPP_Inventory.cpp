@@ -14,6 +14,7 @@
 
 ACPP_Inventory::ACPP_Inventory()
 {
+	// バックパック一枠に収納できる各アイテムの数を設定
 	// 銃弾
 	m_MaxStockableItemNum.Add(FStockItemNum(EItemType::EIT_LightAmmo, 60));
 	m_MaxStockableItemNum.Add(FStockItemNum(EItemType::EIT_HeavyAmmo, 60));
@@ -37,7 +38,6 @@ void ACPP_Inventory::Init()
 	findGunClass = ACPPGunBase::StaticClass();
 	TArray<AActor*> inLevelGuns;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), findGunClass, inLevelGuns);
-	//m_MyGun = Cast<ACPPGunBase>(inLevelGuns[0]);
 	SetGun(Cast<ACPPGunBase>(inLevelGuns[0]));
 }
 
