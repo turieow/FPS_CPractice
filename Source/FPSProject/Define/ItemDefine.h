@@ -62,5 +62,17 @@ struct FStockItemNum
 
     EItemType type;
     int num;
+
+    FStockItemNum(EItemType t, int n)
+    {
+        type = t;
+        num = n;
+    }
+
+    FStockItemNum()
+    {
+        type = EItemType::EIT_NONE;
+        num = 0;
+    }
 };
 

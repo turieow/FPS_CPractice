@@ -8,6 +8,7 @@
 #include "CPP_Inventory.generated.h"
 
 class ACPPGunBase;
+class ABackPackBase;
 /**
  * 
  */
@@ -38,9 +39,18 @@ public:
 	void ConsumptionItem(EItemType type, int consumptioNum);
 
 	// 引数のアイテムを回収できる数を返す
-	int32 CheckCanTakeItemNum(AActor* item);
+	int32 CheckCanTakeItemNum(EItemType newItemType, int32 newItemNum);
 
-	// アイテムを追加。実際に追加した数を返す.追加できなければ-1
+	// バックパックの空き枠の数を返す
+	int32 GetEmptyFrameNum() const;
+
+	// 銃、バックパック、弾、などを振り分けて処理する
+	void SetItem(AActor* newItem);
+
+	// 引数のアイテムを追加できる個数を取得
+	int32 CheckCantTakeItemNum(AActor* item);
+
+	// バックパック内のアイテムを追加。実際に追加した数を返す.追加できなければ-1
 	int AddItem(AActor* item);
 
 	// 銃をセットする
@@ -59,4 +69,7 @@ private:
 	TArray<FStockItemNum> m_MaxStockableItemNum;
 	// 現在所有中のアイテム
 	TArray<FStockItemNum> m_CurrentStockItemNum;
+
+	// バックパック
+	ABackPackBase* m_BackPack;
 };

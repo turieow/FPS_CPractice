@@ -2,6 +2,7 @@
 
 #include "FPSProject\Object/CPP_Inventory.h"
 #include "FPSProject\Object/Gun/CPPGunBase.h"
+#include "FPSProject\Object\BackPack\BackPackBase.h"
 #include "Kismet/GameplayStatics.h"
 
 // interface
@@ -13,7 +14,9 @@
 
 ACPP_Inventory::ACPP_Inventory()
 {
-	//Init();
+	// 銃弾
+	m_MaxStockableItemNum.Add(FStockItemNum(EItemType::EIT_LightAmmo, 60));
+	m_MaxStockableItemNum.Add(FStockItemNum(EItemType::EIT_HeavyAmmo, 60));
 }
 
 void ACPP_Inventory::BeginPlay()
@@ -36,13 +39,6 @@ void ACPP_Inventory::Init()
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), findGunClass, inLevelGuns);
 	//m_MyGun = Cast<ACPPGunBase>(inLevelGuns[0]);
 	SetGun(Cast<ACPPGunBase>(inLevelGuns[0]));
-
-	//　ライトアモ補充（仮）
-	TSubclassOf<ACPP_AmmoStockBase> findAmmoClass; 
-	findAmmoClass = ACPP_AmmoStockBase::StaticClass();
-	TArray<AActor*> ammo;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), findAmmoClass, ammo);
-	AddItem(ammo[0]);
 }
 
 ACPPGunBase* ACPP_Inventory::GetMyGun() const
@@ -123,9 +119,53 @@ void ACPP_Inventory::ConsumptionItem(EItemType type, int consumptionNum)
 	}
 }
 
-int32 ACPP_Inventory::CheckCanTakeItemNum(AActor* item)
+// 銃、バックパック、弾、などを振り分けて処理する
+void ACPP_Inventory::SetItem(AActor* newItem)
 {
-	return 0;
+
+	if (newItem->ActorHasTag("BackPack"))
+	{
+		m_BackPack = Cast<ABackPackBase>(newItem);
+		return;
+	}
+	else if(false/*newItem->ActorHasTag("Attachment")*/)
+	{
+		return;
+	}
+
+	AddItem(newItem);
+}
+
+// 引数のアイテムを追加できる個数を取得
+int32 ACPP_Inventory::CheckCanTakeItemNum(EItemType newItemType, int32 newItemNum)
+{
+	const int32 nokori = GetItemNum(newItemType) % GetMaxStockItemNum(newItemType);
+
+	const int32 canAddNum = FMath::Min(newItemNum, (GetEmptyFrameNum() * GetMaxStockItemNum(newItemType) + nokori));
+	return canAddNum;
+}
+
+// バックパックの空き枠を返す
+int32 ACPP_Inventory::GetEmptyFrameNum() const
+{
+	int32 usedFrameNum = 0;
+	for (auto myItem : m_CurrentStockItemNum)
+	{
+		const int32 used = (myItem.num / GetMaxStockItemNum(myItem.type)) +
+			(myItem.num % GetMaxStockItemNum(myItem.type) == 0 ? 0 : 1);
+
+		usedFrameNum += used;
+	}
+
+	if (m_BackPack)
+	{
+		return m_BackPack->GetFrameNum() - usedFrameNum;
+	}
+	else
+	{
+		const int32 defaultFrameNum = 10;
+		return defaultFrameNum - usedFrameNum;
+	}
 }
 
 // アイテムを追加する。実際に追加した数を返す.追加できなければ-1
@@ -140,16 +180,19 @@ int ACPP_Inventory::AddItem(AActor* newitem)
 	const EItemType newItemType = II_PlayerToItem::Execute_IGetItemType(newitem);
 	const int newItemNum = II_PlayerToItem::Execute_IGetStockNum(newitem);
 
+	// 追加可能な数
+	const int32 canaddNum = CheckCanTakeItemNum(newItemType, newItemNum);
+
 	// 既に何個か持ってる時
 	for (auto& myitem : m_CurrentStockItemNum)
 	{
 		if (newItemType == myitem.type)
-		{
-			// ToDo:バックパック空いてたら
-			if (true)
+		{			
+			// バックパック空いてたら
+			if (canaddNum > 0)
 			{
-				myitem.num += newItemNum;
-				return newItemNum;	
+				myitem.num += canaddNum;
+				return canaddNum;	
 			}
 			else
 			{
@@ -159,14 +202,14 @@ int ACPP_Inventory::AddItem(AActor* newitem)
 	}
 
 	// まだ持ってないアイテムだったとき
-	if (true)	// ToDo:バックパックが空いてたら
+	if (canaddNum > 0)	// バックパックが空いてたら
 	{
 		FStockItemNum stock;
 		stock.type = newItemType;
-		stock.num = newItemNum;
+		stock.num = canaddNum;
 		m_CurrentStockItemNum.Add(stock);
 
-		return newItemNum;	// 実際に追加した数を返すように変える。
+		return canaddNum;	// 実際に追加した数を返すように変える。
 	}
 
 	return -1;

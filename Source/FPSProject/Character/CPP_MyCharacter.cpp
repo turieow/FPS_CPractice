@@ -185,9 +185,11 @@ void ACPP_MyCharacter::TakeItem()
 				if (item->ActorHasTag(TEXT("Item")))
 				{
 					// 取得したアイテムをアイテムリストに移す
-					const int addedItemNum = m_Inventory->AddItem(item);
-					II_PlayerToItem::Execute_ITakeItem(item, addedItemNum);
+					//const int addedItemNum = m_Inventory->AddItem(item);
+					//II_PlayerToItem::Execute_ITakeItem(item, addedItemNum);
 
+					m_Inventory->SetItem(item);
+					
 					UE_LOG(LogTemp, Log, TEXT("HitActor:%s"), *(item->GetName()));
 				}
 			}
