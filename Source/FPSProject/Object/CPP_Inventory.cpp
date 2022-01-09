@@ -130,6 +130,8 @@ void ACPP_Inventory::SetItem(AActor* newItem)
 	}
 	else if(false/*newItem->ActorHasTag("Attachment")*/)
 	{
+		// 取得したアイテムを移す
+		//II_PlayerToItem::Execute_ITakeItem(newItem, 1);
 		return;
 	}
 
@@ -169,12 +171,12 @@ int32 ACPP_Inventory::GetEmptyFrameNum() const
 }
 
 // アイテムを追加する。実際に追加した数を返す.追加できなければ-1
-int ACPP_Inventory::AddItem(AActor* newitem)
+void ACPP_Inventory::AddItem(AActor* newitem)
 {
 	// 拾えるアイテムじゃなかったらreturn
 	if (!newitem->ActorHasTag("Item"))
 	{
-		return -1;
+		return;
 	}
 
 	const EItemType newItemType = II_PlayerToItem::Execute_IGetItemType(newitem);
@@ -192,11 +194,15 @@ int ACPP_Inventory::AddItem(AActor* newitem)
 			if (canaddNum > 0)
 			{
 				myitem.num += canaddNum;
-				return canaddNum;	
+
+				// 取得したアイテムをアイテムリストに移す
+				II_PlayerToItem::Execute_ITakeItem(newitem, canaddNum);
+
+				return;
 			}
 			else
 			{
-				return -1;
+				return;
 			}
 		}
 	}
@@ -209,8 +215,11 @@ int ACPP_Inventory::AddItem(AActor* newitem)
 		stock.num = canaddNum;
 		m_CurrentStockItemNum.Add(stock);
 
-		return canaddNum;	// 実際に追加した数を返すように変える。
+		// 取得したアイテムをアイテムリストに移す
+		II_PlayerToItem::Execute_ITakeItem(newitem, canaddNum);
+
+		return;
 	}
 
-	return -1;
+	return;
 }

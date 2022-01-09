@@ -47,11 +47,8 @@ public:
 	// 銃、バックパック、弾、などを振り分けて処理する
 	void SetItem(AActor* newItem);
 
-	// 引数のアイテムを追加できる個数を取得
-	int32 CheckCantTakeItemNum(AActor* item);
-
 	// バックパック内のアイテムを追加。実際に追加した数を返す.追加できなければ-1
-	int AddItem(AActor* item);
+	void AddItem(AActor* item);
 
 	// 銃をセットする
 	void SetGun(ACPPGunBase* gun);
