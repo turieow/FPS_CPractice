@@ -14,6 +14,9 @@ class FPSPROJECT_API ACPP_Gun_R301 : public ACPP_Gun_AR
 {
 	GENERATED_BODY()
 
+public:
+	ACPP_Gun_R301();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;	

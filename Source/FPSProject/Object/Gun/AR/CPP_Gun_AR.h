@@ -12,6 +12,9 @@
 UCLASS()
 class FPSPROJECT_API ACPP_Gun_AR : public ACPPGunBase
 {
+
 	GENERATED_BODY()
 	
+public:
+	ACPP_Gun_AR();
 };

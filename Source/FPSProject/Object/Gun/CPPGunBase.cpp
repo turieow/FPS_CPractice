@@ -18,6 +18,7 @@
 
 // Sets default values
 ACPPGunBase::ACPPGunBase()
+	:ACPP_ItemBase()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;	
@@ -25,7 +26,15 @@ ACPPGunBase::ACPPGunBase()
 	{
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Gun"));
 	}
-	Init();
+
+	m_Stock = 1;
+	// タグを追加
+	Tags.Add(FName("Gun"));
+
+	for (auto tagname : this->Tags)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, tagname.ToString());
+	}
 }
 
 // Called when the game starts or when spawned
@@ -45,6 +54,9 @@ void ACPPGunBase::Tick(float DeltaTime)
 // 初期化処理
 void ACPPGunBase::Init()
 {	
+	// タグを追加
+	Tags.Add(FName("Gun"));
+
 	m_CurrentLoaingNum = m_MaxLoadingNum;
 }
 

@@ -127,25 +127,28 @@ void ACPP_MyCharacter::Fire()
 		return;
 	}
 
-	EFireResultType fireResult = m_Inventory->GetMyGun()->Fire();
-	UE_LOG(LogTemp, Log, TEXT("ammo %d"), m_Inventory->GetMyGun()->m_CurrentLoaingNum);
-	const EItemType itemType = UCPP_ItemFunctionLibrary::GunTypeToItemType(m_Inventory->GetMyGun()->m_GunType);
-	UE_LOG(LogTemp, Log, TEXT("inventory %d"), m_Inventory->GetItemNum(itemType));
-
-	// Attempt to fire a projectile.
-	switch (fireResult)
+	if (m_Inventory->GetMyGun())
 	{
-	case EFireResultType::EFT_Fire:
-		// 射撃アニメーション
-		break;
+		EFireResultType fireResult = m_Inventory->GetMyGun()->Fire();
+		UE_LOG(LogTemp, Log, TEXT("ammo %d"), m_Inventory->GetMyGun()->m_CurrentLoaingNum);
+		const EItemType itemType = UCPP_ItemFunctionLibrary::GunTypeToItemType(m_Inventory->GetMyGun()->m_GunType);
+		UE_LOG(LogTemp, Log, TEXT("inventory %d"), m_Inventory->GetItemNum(itemType));
 
-	case EFireResultType::EFT_Reload:
-		// リロードアニメーション
-		break;
+		// Attempt to fire a projectile.
+		switch (fireResult)
+		{
+		case EFireResultType::EFT_Fire:
+			// 射撃アニメーション
+			break;
 
-	case EFireResultType::EFT_NONE:
-		break;
-	}	
+		case EFireResultType::EFT_Reload:
+			// リロードアニメーション
+			break;
+
+		case EFireResultType::EFT_NONE:
+			break;
+		}
+	}
 }
 
 void ACPP_MyCharacter::Reload()
@@ -178,13 +181,12 @@ void ACPP_MyCharacter::TakeItem()
 
 		if (Hit.bBlockingHit)
 		{
-			UE_LOG(LogTemp, Log, TEXT("Hit"));
 			item = Hit.GetActor();
 			if (item)
 			{
 				if (item->ActorHasTag(TEXT("Item")))
 				{
-					m_Inventory->SetItem(item);
+					m_Inventory->SetItem(item);					
 					
 					UE_LOG(LogTemp, Log, TEXT("HitActor:%s"), *(item->GetName()));
 				}

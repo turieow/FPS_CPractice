@@ -26,6 +26,7 @@ ACPP_ItemBase::ACPP_ItemBase()
 
 	// タグを追加
 	Tags.Add(FName("Item"));
+	//Tags.Add(FName("Gun"));
 }
 
 // Called when the game starts or when spawned
@@ -68,6 +69,7 @@ void ACPP_ItemBase::ITakeItem_Implementation(int num)
 	// ストックがなくなったら自身を削除
 	if (m_Stock < 1)
 	{
-		Destroy();
+		m_Mesh->SetVisibility(false);
+		m_Mesh->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	}
 }

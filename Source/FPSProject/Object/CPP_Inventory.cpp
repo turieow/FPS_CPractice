@@ -34,11 +34,11 @@ void ACPP_Inventory::Tick(float DeltaTime)
 void ACPP_Inventory::Init()
 {
 	// ワールド内の銃を取得・拾うまでの仮処理
-	TSubclassOf<ACPPGunBase> findGunClass;
+	/*TSubclassOf<ACPPGunBase> findGunClass;
 	findGunClass = ACPPGunBase::StaticClass();
 	TArray<AActor*> inLevelGuns;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), findGunClass, inLevelGuns);
-	SetGun(Cast<ACPPGunBase>(inLevelGuns[0]));
+	SetGun(Cast<ACPPGunBase>(inLevelGuns[0]));*/
 }
 
 ACPPGunBase* ACPP_Inventory::GetMyGun() const
@@ -122,16 +122,26 @@ void ACPP_Inventory::ConsumptionItem(EItemType type, int consumptionNum)
 // 銃、バックパック、弾、などを振り分けて処理する
 void ACPP_Inventory::SetItem(AActor* newItem)
 {
-
 	if (newItem->ActorHasTag("BackPack"))
 	{
 		m_BackPack = Cast<ABackPackBase>(newItem);
+
+		// 取得したアイテムを移す
+		II_PlayerToItem::Execute_ITakeItem(newItem, 1);
 		return;
 	}
-	else if(false/*newItem->ActorHasTag("Attachment")*/)
+	else if (newItem->ActorHasTag("Gun"))
 	{
-		// 取得したアイテムを移す
-		//II_PlayerToItem::Execute_ITakeItem(newItem, 1);
+		UE_LOG(LogTemp, Log, TEXT("TagOK"));
+		ACPPGunBase* gun = Cast<ACPPGunBase>(newItem);
+		if (gun)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Gun is valid"));
+			SetGun(gun);
+
+			// 取得したアイテムを移す
+			II_PlayerToItem::Execute_ITakeItem(newItem, 1);
+		}
 		return;
 	}
 
