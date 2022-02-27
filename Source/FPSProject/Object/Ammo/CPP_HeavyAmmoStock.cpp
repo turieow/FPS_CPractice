@@ -6,9 +6,9 @@
 ACPP_HeavyAmmoStock::ACPP_HeavyAmmoStock()
 	:ACPP_AmmoStockBase()
 {
-	m_ItemType = EItemType::EIT_HeavyAmmo;
+	/*m_ItemType = EItemType::EIT_HeavyAmmo;
 	m_GunType = EGunType::EGT_Heavy;
 
-	m_Stock = 13;
+	m_Stock = 13;*/
 }
 

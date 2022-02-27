@@ -31,9 +31,13 @@ ACPPGunBase::ACPPGunBase()
 	// ƒ^ƒO‚ð’Ç‰Á
 	Tags.Add(FName("Gun"));
 
+	
 	for (auto tagname : this->Tags)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, tagname.ToString());
+		if (GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, tagname.ToString());
+		}
 	}
 }
 

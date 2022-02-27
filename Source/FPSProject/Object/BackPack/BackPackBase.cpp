@@ -8,7 +8,7 @@ ABackPackBase::ABackPackBase()
 {
 	m_ItemType = EItemType::EIT_BackPack;
 
-	// タグを追加
+	//// タグを追加
 	Tags.Add(FName("BackPack"));
 }
 
