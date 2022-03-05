@@ -36,7 +36,7 @@ ACPPGunBase::ACPPGunBase()
 	{
 		if (GEngine)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, tagname.ToString());
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, tagname.ToString());
 		}
 	}
 }

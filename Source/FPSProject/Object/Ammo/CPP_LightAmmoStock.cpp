@@ -13,11 +13,14 @@ ACPP_LightAmmoStock::ACPP_LightAmmoStock()
 
 	if (m_Mesh)
 	{
-		static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("'/Game/Mesh/Sphere/Sphere.Sphere'"));
-		if (Mesh.Succeeded())
+		static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("'/Engine/BasicShapes/Cube.Cube'"));
+		static ConstructorHelpers::FObjectFinder<UMaterialInstance> Mat(TEXT("'/Game/Material/MI_LightAmmo.MI_LightAmmo'"));
+		if (Mesh.Succeeded() && Mat.Succeeded())
 		{
 			m_Mesh->SetStaticMesh(Mesh.Object);
+			m_Mesh->SetMaterial(0, Mat.Object);
 		}
 	}
+	SetActorScale3D(FVector(0.5f, 0.5f, 0.5f));
 }
 
