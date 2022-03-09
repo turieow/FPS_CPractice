@@ -9,7 +9,16 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"Engine"
+				"Engine",
+				"CoreUObject"
+			]
+		},
+		{
+			"Name": "FPSProjectEd",
+			"Type": "Editor",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"CoreUObject"
 			]
 		}
 	]

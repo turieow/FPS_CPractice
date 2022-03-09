@@ -6,7 +6,7 @@
 #include "Engine/DataAsset.h"
 #include "Engine\DataTable.h"
 
-#include "FPSProject/Define/AttachmentDefine.h"
+#include "../Define/AttachmentDefine.h"
 #include "AttachmentDataAsset.generated.h"
 
 /**

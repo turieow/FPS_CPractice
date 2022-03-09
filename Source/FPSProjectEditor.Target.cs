@@ -8,7 +8,7 @@ public class FPSProjectEditorTarget : TargetRules
 	public FPSProjectEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
-		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.Add("FPSProject");
+		//DefaultBuildSettings = BuildSettingsVersion.V2;
+		ExtraModuleNames.AddRange(new string[] { "FPSProject" , "FPSProjectEd"});
 	}
 }
