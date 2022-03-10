@@ -5,7 +5,8 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 
-#include "FPSProject\Define\AttachmentDefine.h"
+#include "../DataAsset/AttachmentDataAsset.h"
+
 #include "StaticDataManager.generated.h"
 
 /**
@@ -20,6 +21,14 @@ public:
 	UStaticDataManager() {};
 
 	// アタッチメント用データテーブルの参照
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Config, Category = Character)
-		FSoftObjectPath m_AttachmentDataAsset;
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Config, meta = (AllowedClasses = "DataTable"))
+		FSoftObjectPath AttachmentDataAssetPath;
+
+	UPROPERTY(BlueprintReadOnly)
+		class UDataTable* CharacterDataAsset;
+
+public:
+	 // データアセットの取得
+	UFUNCTION(BlueprintCallable, meta = (WorldContext = "WorldContextObject"))
+		static FAttachment_TableRow GetAttachmentData(const UObject* WorldContextObject, FName name);
 };

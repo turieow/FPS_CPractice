@@ -75,6 +75,7 @@ public:
     UPROPERTY(EditAnywhere, Category = "Test")
         UDataTable* DataTable;
 #endif
+
     UFUNCTION(meta = (CallInEditor = "true"))
         void Import();
 

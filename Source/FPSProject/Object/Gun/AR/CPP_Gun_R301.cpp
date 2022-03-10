@@ -3,6 +3,11 @@
 
 #include "FPSProject\Object/Gun/AR/CPP_Gun_R301.h"
 
+
+// アタッチメントデバッグ
+#include "../FPSProject/Manager/StaticDataManager.h"
+#include "Engine\DataTable.h"
+
 ACPP_Gun_R301::ACPP_Gun_R301()
 	:ACPP_Gun_AR()
 {
@@ -14,6 +19,9 @@ ACPP_Gun_R301::ACPP_Gun_R301()
 			m_Mesh->SetStaticMesh(Mesh.Object);
 		}
 	}
+
+	const UStaticDataManager* StaticDataManager = GetDefault<UStaticDataManager>();
+	//UDataTable table = Cast<UDataTable>(StaticDataManager->m_AttachmentDataAsset)
 }
 
 void ACPP_Gun_R301::BeginPlay()

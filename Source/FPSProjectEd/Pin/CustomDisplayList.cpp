@@ -9,7 +9,7 @@
 void CustomDisplayList::GetCharacterStatusDisplayStrings(TArray<TSharedPtr<FString>>& OutDisplayStrings)
 {
 	// キャラクターsてーたすのデータテーブル読み込み
-	FSoftObjectPath DataAssetRef = UStaticDataManager::StaticClass()->GetDefaultObject<UStaticDataManager>()->m_AttachmentDataAsset;
+	FSoftObjectPath DataAssetRef = UStaticDataManager::StaticClass()->GetDefaultObject<UStaticDataManager>()->AttachmentDataAssetPath;
 	UDataTable* CharacterStatusDT = Cast<UDataTable>(StaticLoadObject(UDataTable::StaticClass(), nullptr, *(DataAssetRef.ToString())));
 	auto RowNames = CharacterStatusDT->GetRowNames();
 	for (auto& RowName : RowNames)

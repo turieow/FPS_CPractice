@@ -10,6 +10,12 @@
 // FunctionLiblary
 #include "FPSProject\FunctionLibrary/CPP_ItemFunctionLibrary.h"
 
+// GameInstance
+#include "FPSProject/FPSProjectGameInstance.h"
+
+// Manager
+#include "FPSProject\Manager\StaticDataManager.h"
+
 // ëΩï™Ç†Ç∆Ç≈è¡Ç∑
 #include "FPSProject\Character/CPP_MyCharacter.h"
 #include "FPSProject\Define\ItemDefine.h"
@@ -62,6 +68,12 @@ void ACPPGunBase::Init()
 	Tags.Add(FName("Gun"));
 
 	m_CurrentLoaingNum = m_MaxLoadingNum;
+}
+
+void ACPPGunBase::SetAttachment(FName GunName)
+{
+	UFPSProjectGameInstance* gi = Cast<UFPSProjectGameInstance>(GetGameInstance());
+	m_Attachment = gi->GetStaticDataManager()->GetAttachmentData(GetWorld(), GunName);
 }
 
 // î≠éÀä÷êî

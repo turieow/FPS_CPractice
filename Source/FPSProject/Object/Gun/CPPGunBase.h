@@ -8,6 +8,7 @@
 
 // Define
 #include "FPSProject\Define\ResultDefine.h"
+#include "FPSProject\DataAsset\AttachmentDataAsset.h"
 
 #include "CPPGunBase.generated.h"
 
@@ -32,6 +33,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// アタッチメント情報を設定
+	void SetAttachment(FName gunName);
+
 	// 発射関数
 	UFUNCTION(BlueprintCallable)
 	virtual EFireResultType Fire();
@@ -41,6 +45,10 @@ public:
 	virtual bool Reload();
 
 public:
+	// 最大装填数
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FAttachment_TableRow m_Attachment;
+
 	// 最大装填数
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int m_MaxLoadingNum = 10;
