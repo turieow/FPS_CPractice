@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "Animation/AnimMontage.h"
 #include "FPSProject\Character/CPP_MyCharacter.h"
 
 #include "FPSProject\Object/CPP_Inventory.h"
@@ -111,7 +111,16 @@ void ACPP_MyCharacter::MoveRight(float Value)
 
 void ACPP_MyCharacter::StartJump()
 {
-	bPressedJump = true;
+	UAnimMontage* montage = LoadObject<UAnimMontage>(this, TEXT("AnimMontage'/Game/Animation/FPP_Animations/FPP_Jump.FPP_Jump'"));
+	if (montage)
+	{
+		if (FPSMesh->GetAnimInstance())
+		{
+			FPSMesh->GetAnimInstance()->Montage_Play(montage);
+			FPSMesh->GetAnimInstance()->Montage_JumpToSection("Start", montage);
+		}
+	}
+	//bPressedJump = true;
 }
 
 void ACPP_MyCharacter::StopJump()
@@ -157,6 +166,7 @@ void ACPP_MyCharacter::Reload()
 	if (result)
 	{
 		// リロードアニメーション
+		
 	}
 }
 
